@@ -1,10 +1,10 @@
-use j4rs::prelude::jobject;
 use j4rs::Jvm;
-use j4rs::prelude::ptr;
 use j4rs::prelude::c_void;
 use j4rs::prelude::JNIEnv;
 use j4rs_derive::call_from_java;
-use windows::Media::Control::{GlobalSystemMediaTransportControlsSession, GlobalSystemMediaTransportControlsSessionManager};
+use windows::Media::Control::{
+    GlobalSystemMediaTransportControlsSession, GlobalSystemMediaTransportControlsSessionManager,
+};
 
 #[call_from_java("com.minearchive.WinAPI.tryStart")]
 fn try_start() {

@@ -1,10 +1,11 @@
 package com.minearchive;
 
-import java.nio.file.Paths;
+import com.minearchive.struct.PlaybackInfo;
+import com.minearchive.struct.PlaybackState;
 
 public class WinAPI {
     static {
-        System.load("winAPI.dll");
+        System.load("X:\\build\\winAPI\\rust\\target\\debug\\winAPI.dll");
     }
 
     //play back
@@ -14,22 +15,20 @@ public class WinAPI {
     private static native void trySkipPrevious();
 
     //status
-//    private static native void tryGetPlayingTitle();
+    private static native String tryGetCurrentPlaying();
+    private static native String tryGetState();
 
-    public static void mediaStart() {
-        tryStart();
+    public static void mediaStart() { tryStart(); }
+    public static void mediaStop() { tryStop(); }
+    public static void mediaSkipNext() { trySkipNext(); }
+    public static void mediaSkipPrevious() { trySkipPrevious(); }
+
+    public static PlaybackInfo mediaCurrentPlaying() {
+        return new PlaybackInfo(tryGetCurrentPlaying());
     }
 
-    public static void mediaStop() {
-        tryStop();
-    }
-
-    public static void mediaSkipNext() {
-        trySkipNext();
-    }
-
-    public static void mediaSkipPrevious() {
-        trySkipPrevious();
+    public static PlaybackState mediaCurrentState() {
+        return new PlaybackState(tryGetState());
     }
 
 }

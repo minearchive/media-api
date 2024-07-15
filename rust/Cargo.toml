@@ -7,14 +7,14 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-j4rs = "0.17.2"
-j4rs_derive = "0.1"
-serde = { version = "1.0", features = ["derive"] }
-tokio = { version = "1", features = ["full"] }
+jni = "0.21.1"
+serde_json = "1.0"
+tokio = "1.38.0"
 
 [dependencies.windows]
-version = "0.54.0"
-features = [
-    "Foundation",
-    "Media_Control"
-]
+version = "0.58.0"
+features = ["Foundation", "Media_Control", "Storage_Streams"]
+
+[dependencies.serde]
+version = "1.0.197"
+features = ["derive"]

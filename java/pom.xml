@@ -21,13 +21,4 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.github.astonbitecode</groupId>
-            <artifactId>j4rs</artifactId>
-            <version>0.15.3</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-
 </project>

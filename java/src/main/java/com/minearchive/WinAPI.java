@@ -12,7 +12,7 @@ import java.nio.file.StandardCopyOption;
 public class WinAPI {
     static {
         try {
-            InputStream stream = WinAPI.class.getResourceAsStream("/windows-media-api.dll");
+            InputStream stream = WinAPI.class.getResourceAsStream("/com/minearchive/windows-media-api.dll");
 
             String tempDir = System.getProperty("java.io.tmpdir");
             Path targetPath = Paths.get(tempDir, "windows-media-api.dll");

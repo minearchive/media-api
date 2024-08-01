@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 public class WinAPI {
 
-    private static PlaybackInfo info = new PlaybackInfo(",,,,,");
-    private static PlaybackState state = new PlaybackState("n,n,n,n,n,n,n,n,n,n,n,n,n,-1,-1,-1,-1,-1");
+    private static PlaybackInfo info = new PlaybackInfo("None,None,None,None,-1,-1");
+    private static PlaybackState state = new PlaybackState("stopped,n,y,y,n,n,n,y,y,n,n,y,n,n,n,y,0,-1,-1,0,-1,");
     private static byte[] cover = new byte[] {};
 
     static {
@@ -36,6 +36,9 @@ public class WinAPI {
             state = new PlaybackState(tryGetState());
             cover = tryGetCover();
         }, 0, 500, TimeUnit.MILLISECONDS);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(scheduler::shutdown));
+
     }
 
     //play back

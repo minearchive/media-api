@@ -8,8 +8,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class WinAPI {
+
+    private static PlaybackInfo info = new PlaybackInfo(",,,,,");
+    private static PlaybackState state = new PlaybackState("n,n,n,n,n,n,n,n,n,n,n,n,n,-1,-1,-1,-1,-1");
+    private static byte[] cover = new byte[] {};
+
     static {
         try {
             InputStream stream = WinAPI.class.getResourceAsStream("/com/minearchive/windows-media-api.dll");
@@ -21,6 +29,13 @@ public class WinAPI {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(() -> {
+            info = new PlaybackInfo(tryGetCurrentPlaying());
+            state = new PlaybackState(tryGetState());
+            cover = tryGetCover();
+        }, 0, 500, TimeUnit.MILLISECONDS);
     }
 
     //play back
@@ -40,15 +55,15 @@ public class WinAPI {
     public static void mediaSkipPrevious() { trySkipPrevious(); }
 
     public static PlaybackInfo mediaCurrentPlaying() {
-        return new PlaybackInfo(tryGetCurrentPlaying());
+        return info;
     }
 
     public static PlaybackState mediaCurrentState() {
-        return new PlaybackState(tryGetState());
+        return state;
     }
 
     public static byte[] mediaGetCurrentCover() {
-        return tryGetCover();
+        return cover;
     }
 
 }

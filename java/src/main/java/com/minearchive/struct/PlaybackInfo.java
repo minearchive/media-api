@@ -2,7 +2,7 @@ package com.minearchive.struct;
 
 public class PlaybackInfo {
 
-    private String raw, name, artist, albumName, albumArtist, track, albumRange;
+    private final String raw, name, artist, albumName, albumArtist, track, albumRange;
 
     public PlaybackInfo(String raw) {
         this.raw = raw;

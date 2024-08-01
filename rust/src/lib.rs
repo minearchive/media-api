@@ -1,7 +1,8 @@
 use jni::JNIEnv;
 use jni::objects::JClass;
-use jni::sys::jstring;
+use jni::sys::{jbyteArray, jstring};
 use windows::Media::Control::{GlobalSystemMediaTransportControlsSession, GlobalSystemMediaTransportControlsSessionManager, GlobalSystemMediaTransportControlsSessionPlaybackStatus};
+use windows::Storage::Streams::{Buffer, DataReader, InputStreamOptions};
 
 #[no_mangle]
 pub extern "system" fn Java_com_minearchive_WinAPI_tryStart(_env: JNIEnv, _class: JClass) {
@@ -78,6 +79,25 @@ pub extern "system" fn Java_com_minearchive_WinAPI_tryGetState(_env: JNIEnv, _cl
     s_str.push_str(get_session().GetTimelineProperties().unwrap().MinSeekTime().unwrap().Duration.to_string().as_str()); s_str.push_str(",");
     s_str.push_str(get_session().GetTimelineProperties().unwrap().MaxSeekTime().unwrap().Duration.to_string().as_str()); s_str.push_str(",");
     return _env.new_string(s_str).unwrap().into_raw()
+}
+
+#[no_mangle]
+pub extern "system" fn Java_com_minearchive_WinAPI_tryGetCover(_env: JNIEnv, _class: JClass) -> jbyteArray {
+    let stream_ref = get_session().TryGetMediaPropertiesAsync().unwrap().get().unwrap().Thumbnail().unwrap();
+
+    // Step 2: Open the stream and read the data into a buffer
+    let stream = stream_ref.OpenReadAsync().unwrap().get().unwrap();
+    let size = stream.Size().unwrap() as usize;
+
+    // Create an IBuffer to read the data
+    let buffer = Buffer::Create(size as u32).unwrap();
+    stream.ReadAsync(&buffer, size as u32, InputStreamOptions::None).unwrap().get().unwrap();
+
+    let data_reader = DataReader::FromBuffer(&buffer).unwrap();
+    let mut vec_buffer = vec![0u8; size];
+    data_reader.ReadBytes(&mut vec_buffer).unwrap();
+
+    return _env.byte_array_from_slice(&vec_buffer).unwrap().into_raw();
 }
 
 fn get_session() -> GlobalSystemMediaTransportControlsSession {

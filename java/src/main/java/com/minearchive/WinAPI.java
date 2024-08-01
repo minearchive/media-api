@@ -17,6 +17,7 @@ public class WinAPI {
     //status
     private static native String tryGetCurrentPlaying();
     private static native String tryGetState();
+    private static native byte[] tryGetCover();
 
     public static void mediaStart() { tryStart(); }
     public static void mediaStop() { tryStop(); }
@@ -29,6 +30,10 @@ public class WinAPI {
 
     public static PlaybackState mediaCurrentState() {
         return new PlaybackState(tryGetState());
+    }
+
+    public static byte[] mediaGetCurrentCover() {
+        return tryGetCover();
     }
 
 }

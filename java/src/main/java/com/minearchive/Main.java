@@ -20,7 +20,7 @@ public class Main {
         System.out.println();
 
         System.out.println(Arrays.toString(WinAPI.mediaGetCurrentCover()));
-        byteArrayToPNG(WinAPI.mediaGetCurrentCover(), "X:\\build\\winAPI\\text.png");
+        byteArrayToPNG(WinAPI.mediaGetCurrentCover(), "X:\\build\\winAPI\\" + info.getName().replace("\\", "").replace("/", "") + ".png");
     }
 
     public static void byteArrayToPNG(byte[] byteArray, String outputPath) {

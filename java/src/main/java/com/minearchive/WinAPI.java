@@ -35,10 +35,9 @@ public class WinAPI {
             info = new PlaybackInfo(tryGetCurrentPlaying());
             state = new PlaybackState(tryGetState());
             cover = tryGetCover();
-        }, 0, 500, TimeUnit.MILLISECONDS);
+        }, 0, 100, TimeUnit.MILLISECONDS);
 
         Runtime.getRuntime().addShutdownHook(new Thread(scheduler::shutdown));
-
     }
 
     //play back
